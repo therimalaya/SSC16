@@ -15,7 +15,7 @@ output:
     mathjax: null
     nature:
       # mathjax: 'libs/MathJax/MathJax.js'
-      ratio: 16:10
+      ratio: 16:9
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
@@ -282,7 +282,7 @@ plt22 <- plot_simrel(sobj_low, which = 4, use_population = FALSE) +
 plt2_ <- arrangeGrob(plt21, plt22, top = mklbl("Sample", "italic"), nrow = 1)
 grid.newpage()
 grid.draw(arrangeGrob(plt1_, plt2_, nrow = 2, 
-                      bottom = mklbl("Low Multicollinearity", "bold")))
+                      bottom = mklbl("Design 1: Low Multicollinearity", "bold")))
 ```
 
 ]
@@ -328,7 +328,8 @@ plt22 <- plot_simrel(sobj_high, which = 4, use_population = FALSE) +
   labs(y = NULL)
 plt2_ <- arrangeGrob(plt21, plt22, top = mklbl("Sample", "italic"), nrow = 1)
 grid.newpage()
-grid.draw(arrangeGrob(plt1_, plt2_, nrow = 2, bottom = mklbl("High Multicollinearity", "bold")))
+grid.draw(arrangeGrob(plt1_, plt2_, nrow = 2, 
+                      bottom = mklbl("Design 4: High Multicollinearity", "bold")))
 ```
 
 ]
@@ -412,8 +413,6 @@ knitr::kable(head(dta_high_print, 10), format = "html") %>%
 
 class: top
 
-# Prediction Performance
-
 ```{r}
 err <- sim_obj %>% 
   mutate(fit = map2(Method, sobj, function(mthd, obj) {
@@ -470,6 +469,8 @@ make_pred_plot <- function(mthd) {
 
 
 .left-column[
+
+# Prediction Performance
 ## Principal Component Regression
 
 ]
@@ -485,9 +486,10 @@ make_pred_plot("PCR")
 
 class: top
 
-# Prediction Performance
 
 .left-column[
+
+# Prediction Performance
 ## Partial Least Square Regression
 
 ]
