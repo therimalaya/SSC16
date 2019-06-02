@@ -2,7 +2,7 @@
 # rel_col <- alpha(col_vec[3], 1)
 # irrel_col <- alpha(col_vec[2], 0.4)
 
-plot_model <- function(col_rel, col_irrel, alpha_rel, alpha_irrel) {
+plot_model <- function(col_rel, col_irrel, alpha_rel, alpha_irrel, x_width = 0.6, y_width = 0.15) {
   library(grid)
   # rel_col <- "#4899B9"
   # irrel_col <- "#FBFDEC"
@@ -12,8 +12,8 @@ plot_model <- function(col_rel, col_irrel, alpha_rel, alpha_irrel) {
   y_x0 <- 0.07
   y_y0 <- 0.2
 
-  y_width <- 0.08
-  x_width <- 0.68
+  y_width <- y_width
+  x_width <- x_width
 
   x_x0 <- y_x0 + y_width + 0.15
   x_y0 <- 0.2

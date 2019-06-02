@@ -1,27 +1,27 @@
+body {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif;
+}
+svg path {
+    shape-rendering: crispEdges;
+}
 .inverse{
-  background-color: #117d6b;
+    background-color: #009a81;
 }
 
 .remark-slide>.remark-slide-content.inverse.title-slide.middle h1 {
     margin-top: -75px;
 }
 
-.remark-slide .title-slide h1:before {
-    content: ' ';
-    white-space: pre;
-    background-image: url('../_images/NMBUwhite.png');
-    background-size: cover;
-    width: 240px;
-    height: 80px;
-    position: absolute;
-    left: 50%;
-    bottom: 10%;
-    margin-top: -40px;
-    margin-left: -120px;
+.remark-slide .title-slide {
+    margin-top: -100px;
+}
+
+.inverse .remark-code, .inverse a > code {
+    color: white;
 }
 
 h1, h2, h3, h4, h5, h6, a{
-  color: #117d6b;
+    color: #009a81;
 }
 
 .inverse h2 a{
@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5, h6, a{
 }
 
 pre, code {
-  font-family: monospace;
+    font-family: monospace;
 }
 
 .figure .caption {
@@ -39,154 +39,210 @@ pre, code {
 }
 
 .remark-slide-number{
-  font-family: "palatino", times;
-  color: #117d6b;
+    font-family: "palatino", times;
+    color: #117d6b;
 }
 
 .inverse .remark-slide-number{
-  color: #fff;
+    color: #fff;
 }
 
 .remark-slide-content{
-  font-size: 135%;
+    font-size: 135%;
 }
 .left-column{
-  width: 30%;
-  float: left;
+    width: 30%;
+    float: left;
 }
 .right-column{
-  width: 68%;
-  float: right;
-  padding-top: 20px;
+    width: 68%;
+    float: right;
+    padding-top: 20px;
 }
 .left-column ul{
-  list-style: none;
-  padding-left: 0;
-  font-family: Helvetica, Arial;
-  line-height: 150%;
+    list-style: none;
+    padding-left: 0;
+    font-family: Helvetica, Arial;
+    line-height: 150%;
 }
 .spread, .spread summary{
-  line-height: 2em;
+    line-height: 2em;
 }
 summary{
-  padding-bottom: 0.8em;
+    padding-bottom: 0.8em;
 }
 .mjx-chtml {
-  font-size: 98%!important;
+    font-size: 98%!important;
 }
 .red{
-  color: red;
+    color: red;
 }
 .bold{
-  font-weight: bold;
+    font-weight: bold;
 }
 .italics{
-  font-style:italic;
+    font-style:italic;
 }
 .remark-code{
-  font-size: 60%;
+    font-size: 80%;
 }
 .side-caption{
-  font-size: 65%;
-  font-family: "Helvetica Neue", Arial;
-  line-height: 150%;
-  width: 90%;
+    font-size: 65%;
+    font-family: "Helvetica Neue", Arial;
+    line-height: 150%;
+    width: 90%;
 }
 .error-box {
-  text-align: center;
-  font-size: smaller;
+    text-align: center;
+    font-size: smaller;
 }
 .error-box p{
-  margin-top: 0;
+    margin-top: 0;
 }
 .right-60-column{
-  width: 60%;
-  float: left;
-  padding-top: 20px;
+    width: 60%;
+    float: left;
+    padding-top: 20px;
+}
+.right-60-column img {
+    width: 95%;
+    float: right;
 }
 .left-40-column{
-  width: 40%;
-  float: left;
+    width: 40%;
+    float: left;
+}
+.left-40-column img {
+    width: 95%;
+    float: left;
 }
 .hidden{
-  display: none;
+    display: none;
 }
 #hidden-content {
     zoom: 2;
 }
 .flex-box{
-  display:flex;
+    display:flex;
 }
 .flex-box > *{
-  flex: 1
+    flex: 1
 }
 #use-cases~ul{
-  list-style-type: square;
-  padding-left: 25px;
+    list-style-type: square;
+    padding-left: 25px;
 }
 .full-width{
-  width: 100%;
-  display: block;
-  clear: both;
+    width: 100%;
+    display: block;
+    clear: both;
 }
 .frame-wrapper{
-  position: relative;
-  width: 100%;
-  padding-bottom: 63%;
+    position: relative;
+    width: 100%;
+    padding-bottom: 63%;
 }
 iframe.slide-frame{
-  position: absolute;
-  top: 0; bottom: 0; left: 0; right: 0;
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
 }
 a, a:focus, a:hover, a:visited, a:active{
-  text-decoration:none;
+    text-decoration:none;
 }
 @media (min-width: 700px) {
-  #main-container{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 10px;
-  }
+    #main-container{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 10px;
+    }
 }
 
 .plot{
-  margin-top: 50px;
+    margin-top: 50px;
 }
 
 .references p{
-  font-family: "Source Code Pro", monospace;
-  font-size: 0.8em;
+    font-family: "Source Code Pro", monospace;
+    font-size: 0.8em;
 }
 
 .remark-slide-number {
-  position: inherit;
+    position: inherit;
 }
 
 .remark-slide-number .progress-bar-container {
-  position: absolute;
-  bottom: 0;
-  height: 2px;
-  display: block;
-  left: 0;
-  right: 0;
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    display: block;
+    left: 0;
+    right: 0;
 }
 
 .remark-slide-number .progress-bar {
-  height: 100%;
-  background-color: red;
+    height: 100%;
+    background-color: red;
 }
-.inst{
-  font-family: "Helvetica Neue", "Open sans", "Arial";
-  margin-top: -10px;
-  font-size: smaller;
+.pull-left h2, .pull-left h3 {
+    color: rgb(85, 102, 128);
 }
-.solve h3, .trygve h3{
-  margin-bottom: 3pt;
+
+.pull-right h2, .pull-right h3 {
+    color: rgb(85, 102, 128);
 }
-.solve, .trygve{
-  flex: 2;
+.pull-left h2:last-of-type, .pull-left h3:last-child {
+    color: #000;
 }
-.grid-column{
-  display: grid;
-  grid-auto-rows: auto;
+.acknowledgment .pull-left {
+    display: flex;
+    flex-direction: column;
+}
+.acknowledgment .pull-left .card {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 200px 1fr;
+}
+.card-text {
+    text-align: left;
+    padding-left: 20px;
+    line-height: 10px;
+    align-self: end;
+}
+.card-text h2{
+    color: #565656;
+}
+.acknowledgement .pull-left h2:last-of-type, .pull-left h3:last-child {
+    color: gray;
+}
+
+.left-40-column h2:last-of-type, .left-40-column h3:last-child {
+    color: #000;
+    margin-block-start: -0.5em;
+}
+
+.left-column h2:last-of-type, .left-column h3:last-child {
+    color: #000;
+    margin-block-start: -0.5em;
+}
+
+.remark-slide-content.acknowledgment {
+    background: linear-gradient(120deg, rgb(209, 232, 223) 60%, #009a81 60%);
+}
+.pull-right.biostat-logo {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    text-align: right;
+}
+.acknowledgment .pull-right.biostat-logo img {
+    width: 50%;
+    padding-right: 20px;
+}
+.data .right-60-column {
+    display: flex;
+    flex-direction: column;
+}
+.data .right-60-column p {
+    margin: 0;
 }

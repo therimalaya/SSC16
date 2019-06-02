@@ -570,7 +570,7 @@ eff_df <- function(term, model) {
     trms <- strsplit(term, ":")[[1]]
     eff_df <- map_df(suppressMessages(eff_mlm(term, model)),
                      as.data.frame, .id = "Response") %>%
-        as.tibble()
+        as_tibble()
     for (trm in trms)
         eff_df[[trm]] <- factor(eff_df[[trm]], levels = levels(model$model[[trm]]))
     
@@ -642,7 +642,7 @@ eff_plot <- function(effect_df, reorder = FALSE, x_var = NULL,
     return(plt)
 }
 eff_plot3 <- function(effect_df, reorder = FALSE, x_var = NULL,
-                      show_errorbar = FALSE, ...) {
+                      show_errorbar = FALSE, switch_facet = FALSE, ...) {
     dfn <- names(effect_df)
     trms <- unlist(strsplit(attr(effect_df, "term_arg"), ":"))
     # trms <- dfn[-c(1, grep("fit", dfn):length(dfn))]
@@ -661,7 +661,8 @@ eff_plot3 <- function(effect_df, reorder = FALSE, x_var = NULL,
     } else {
         trms_sub <- trms[-c(1:2)]
         facet_formula <- paste(trms_sub[1], paste(trms_sub[-1], collapse = " + "), sep = " ~ ")
-        if (length(trms_sub) == 1) facet_formula <- paste0(facet_formula, ".")
+        if (length(trms_sub) == 1) facet_formula <- as.formula(paste0(facet_formula, "."))
+        if (switch_facet) facet_formula <- as.formula(paste0(facet_formula[[3]], facet_formula[[1]], facet_formula[[2]]))
     }
     sub_title <- attr(effect_df, "terms")
     if (reorder) {
@@ -687,7 +688,7 @@ eff_plot3 <- function(effect_df, reorder = FALSE, x_var = NULL,
         labs(x = trms[1], y = "Effect") +
         ggtitle(paste("Effect Plot:", title), subtitle = sub_title)
     if (!is.null(facet_formula))
-        plt <- plt + facet_grid(as.formula(facet_formula), ...)
+        plt <- plt + facet_grid(facet_formula, ...)
     if (show_errorbar & length(trms) > 1)
         plt <- plt + stat_summary(fun.data = mean_se,
                                   geom = "errorbar", width = 0.1,
@@ -712,7 +713,7 @@ eff_plot2 <- function(term, model, show_errorbar = FALSE,
     term <- possible_terms[possible_terms %in% term_labels]
     eff_df <- map_df(suppressMessages(eff_mlm(term, model)),
                      as.data.frame, .id = "Response") %>%
-        as.tibble()
+        as_tibble()
     if ("Method" %in% trms) {
         mthd_idx <- which(trms %in% "Method")
         trms <- c(trms[mthd_idx], trms[-mthd_idx])
@@ -1004,4 +1005,31 @@ get_err_plot <- function(design, method, flip_facet = FALSE) {
     return(plt)
     ## Relevant Space Plot
     ## Estimation Error Plot ----------------------
+}
+
+
+## --- EXTRA FUNCTIONS ---- ##
+pc_density_plot <- function(dta, expl_var, title) {
+    dta %>% 
+        ggplot(aes(PC1, eta, fill = relpos)) +
+        geom_density_ridges(
+            scale = 0.9,
+            alpha = 0.4, size = 0.25) +
+        geom_density_ridges(
+            scale = 0.95,
+            alpha = 0.2, size = 0.25,
+            stat = "binline", bins = 30) +
+        facet_wrap(
+            . ~ interaction(Method, paste0("gamma:", gamma), sep = "|"), 
+            scales = 'free_x', ncol = 5,
+            labeller = labeller(gamma = label_both, p = label_both)) +
+        theme_grey(base_family = 'mono') +
+        theme(
+            legend.position = "bottom",
+            strip.text = element_text(family = "mono")) +
+        labs(x = paste0("PC1(", expl_var[1], "%)")) +
+        ggtitle(title) +
+        scale_x_continuous(breaks = scales::pretty_breaks(3)) +
+        scale_color_brewer(palette = "Set1") +
+        scale_fill_brewer(palette = "Set1")
 }
