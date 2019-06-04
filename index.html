@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html>
   <head>
     <title>A prediction comparison of some multivariate methods</title>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta name="author" content="Raju Rimal" />
     <!-- <link rel="stylesheet" href="_style/custom.css" type="text/css" media="all" /> -->
     <link rel="stylesheet" href="_style/default.css" type="text/css" />
@@ -141,35 +141,80 @@ Let us make a transformation as `\(\boldsymbol{z} = \mathbf{R} \boldsymbol{x}\)`
 ---
 class: top
 
-.pull-left[
+.left-40-column[
 # Methods
 ## Principal Component Regression
+
+.left-bottom-fig[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-6-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
+
 ]
-.pull-right[
+]
+.right-60-column[
+
+### Overview
+- With each components, it captures the maximum variation in `\(\mathbf{x}\)`
+- Mostly, hight variation in `\(\mathbf{x}\)` captures its relation with `\(\mathbf{y}\)` but not always
+- The variation explained by one components is removed before going for next component
+
 ]
 
 
 ---
 class: top
 
-.pull-left[
+.left-40-column[
 # Methods
 ## Principal Component Regression
 ## Partial Least Squares
+
+.left-bottom-fig[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-7-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
+
 ]
-.pull-right[
+]
+.right-60-column[
+
+### Overview
+- With each components, it captures the maximum covariance of `\(\mathbf{x}\)` and `\(\mathbf{y}\)`
+- Since it goes straight for covariance, it requires less number of components than PCR
+- The variation explained by one components is removed before going for next component
+
+### PLS1 vs PLS2
+- In PLS1, each response variable is modelled separately. Here the correlation structure of `\(\mathbf{y}\)` is not modelled neither directly or indirectly
+- In PLS2, all response variables are modelled together.
+
 ]
 
 ---
 class: top
 
-.pull-left[
+.left-40-column[
 # Methods
 ## Principal Component Regression
 ## Partial Least Squares
 ## Envelope
+
+.left-bottom-fig[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-8-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
+
 ]
-.pull-right[
+]
+.right-60-column[
+
+### Overview
+- Envelope is the smallest subspace where the span of `\(\boldsymbol{\beta}\)` lies, i.e. `\(\varepsilon \in \text{span}(\boldsymbol{\beta})\)`
+- It starts with separating the covariance structure into relevant (material) and irrelevant (immaterial) parts through parameterization of a linear model
+
+### Envelope in Predictor Space
+- Identifies envelope throught the reduction of predictor space
+
+### Simulteneous Envelope
+- Identifies envelope throught the reduction of both response and predictor space
+
 ]
 
 ---
@@ -278,7 +323,7 @@ class: top, data
 
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-6-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-9-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
 
 `$$\mathtt{Pred.Error} \sim \left(\mathtt{p} + \mathtt{relpos} + \mathtt{gamma} + \mathtt{eta} + \mathtt{Methods}\right)^3$$`
 
@@ -297,7 +342,7 @@ class: top, data
 
 ].right-60-column[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-7-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-10-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
 
 `$$\mathtt{Min.Components} \sim \left(\mathtt{p} + \mathtt{relpos} +
   \mathtt{gamma} + \mathtt{eta} + \mathtt{Methods}\right)^3$$`
@@ -377,9 +422,20 @@ class: top
 Almøy, T. (1996). "A simulation study on comparison of prediction
 methods when only a few components are relevant". In:
 _Computational Statistics &amp; Data Analysis_ 21.1, pp. 87-107. DOI:
-[10.1016/0167-9473(95)00006-2](https://doi.org/10.1016%2F0167-9473%2895%2900006-2).
+[10.1016/0167-9473(95)00006-2](https://doi.org/10.1016/0167-9473(95)00006-2).
 URL:
 [https://doi.org/10.1016/0167-9473(95)00006-2](https://doi.org/10.1016/0167-9473(95)00006-2).
+
+Cook, R. D, I. S. Helland and Z. Su (2013). "Envelopes and partial
+least squares regression". In: _Journal of the Royal Statistical
+Society. Series B: Statistical Methodology_ 75.5, pp. 851-877.
+ISSN: 13697412. DOI:
+[10.1111/rssb.12018](https://doi.org/10.1111/rssb.12018).
+
+Cook, R. D. and X. Zhang (2015). "Simultaneous envelopes for
+multivariate linear regression". In: _Technometrics_ 57.1, pp.
+11-25. ISSN: 15372723. DOI:
+[10.1080/00401706.2013.872700](https://doi.org/10.1080/00401706.2013.872700).
 
 Helland, I. S. and T. Almøy (1994). "Comparison of prediction
 methods when only a few components are relevant". In: _Journal of
@@ -389,11 +445,40 @@ Helland, I. S, S. Sæbø, T. Almøy, et al. "Model and estimators for
 partial least squares regression". In: _Journal of Chemometrics_,
 p. e3044.
 
-Rimal, R, T. Almøy, and S. Sæbø (2018). "A tool for simulating
+]
+
+---
+class: top
+
+# References
+.references[
+
+Helland, I. S, S. Saebø, T. Almøy, et al. (2018). "Model and
+estimators for partial least squares regression". In: _Journal of
+Chemometrics_ 32.9, p. e3044. ISSN: 08869383. DOI:
+[10.1002/cem.3044](https://doi.org/10.1002/cem.3044).
+
+Rimal, R, T. Almøy and S. S. ø (2018). "A tool for simulating
+multi-response linear model data". In: _Chemometrics and
+Intelligent Laboratory Systems_ 176, pp. 1 - 10. ISSN: 0169-7439.
+DOI:
+[https://doi.org/10.1016/j.chemolab.2018.02.009](https://doi.org/https://doi.org/10.1016/j.chemolab.2018.02.009).
+URL:
+[http://www.sciencedirect.com/science/article/pii/S0169743917304823](http://www.sciencedirect.com/science/article/pii/S0169743917304823).
+
+Rimal, R, T. Almøy and S. Sæbø (2018). "A tool for simulating
 multi-response linear model data". In: _Chemometrics and
 Intelligent Laboratory Systems_ 176, pp. 1-10.
 
-Sæbø, S, T. Almøy, and I. S. Helland (2015). "simrel - A versatile
+Rimal, R, T. Almøy and S. Sæbø (2019). "Comparison of
+multi-response prediction methods". In: _Chemometrics and
+Intelligent Laboratory Systems_ 190, pp. 10 - 21. ISSN: 0169-7439.
+DOI:
+[https://doi.org/10.1016/j.chemolab.2019.05.004](https://doi.org/https://doi.org/10.1016/j.chemolab.2019.05.004).
+URL:
+[http://www.sciencedirect.com/science/article/pii/S016974391930187X](http://www.sciencedirect.com/science/article/pii/S016974391930187X).
+
+Sæbø, S, T. Almøy and I. S. Helland (2015). "simrel - A versatile
 tool for linear model data simulation based on the concept of a
 relevant subspace and relevant predictors". In: _Chemometrics and
 Intelligent Laboratory Systems_.
@@ -436,7 +521,6 @@ background-size: cover
 background-position: center
 background-repeat: no-repeat
     </textarea>
-<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="libs/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "ratio": "16:10",
@@ -448,41 +532,11 @@ background-repeat: no-repeat
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function(d) {
-  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
-})(document);
-
-(function(d) {
-  var el = d.getElementsByClassName("remark-slides-area");
-  if (!el) return;
-  var slide, slides = slideshow.getSlides(), els = el[0].children;
-  for (var i = 1; i < slides.length; i++) {
-    slide = slides[i];
-    if (slide.properties.continued === "true" || slide.properties.count === "false") {
-      els[i - 1].className += ' has-continuation';
-    }
-  }
-  var s = d.createElement("style");
-  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
-  d.head.appendChild(s);
-})(document);
-// delete the temporary CSS (for displaying all slides initially) when the user
-// starts to view slides
-(function() {
-  var deleted = false;
-  slideshow.on('beforeShowSlide', function(slide) {
-    if (deleted) return;
-    var sheets = document.styleSheets, node;
-    for (var i = 0; i < sheets.length; i++) {
-      node = sheets[i].ownerNode;
-      if (node.dataset["target"] !== "print-only") continue;
-      node.parentNode.removeChild(node);
-    }
-    deleted = true;
-  });
 })();</script>
 <script>
   (function() {
@@ -515,17 +569,6 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
 </script>
 <script src="libs/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="script.js" type="text/javascript" charset="utf-8"></script>
-
-<script>
-(function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-</script>
 
   </body>
 </html>

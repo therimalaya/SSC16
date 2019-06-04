@@ -220,35 +220,101 @@ $$\boldsymbol{\alpha} = \mathbf{Q} \boldsymbol{\beta} \mathbf{R}^t = \boldsymbol
 ---
 class: top
 
-.pull-left[
+.left-40-column[
 # Methods
 ## Principal Component Regression
+
+.left-bottom-fig[
+
+```{r, out.width='100%', dev='svg', fig.asp=0.6, fig.width=5, fig.pos='b'}
+col_vec <- rev(RColorBrewer::brewer.pal(3, "Set1"))
+rel_col <- alpha(col_vec[2], 1)
+irrel_col <- alpha(col_vec[1], 0.2)
+plt <- plot_model(rel_col, irrel_col, 1, 0.6)
+grid.newpage()
+grid.draw(grid_by_name(plt,"rect_box|labels"))
+```
+
 ]
-.pull-right[
+]
+.right-60-column[
+
+### Overview
+- With each components, it captures the maximum variation in $\mathbf{x}$
+- Mostly, hight variation in $\mathbf{x}$ captures its relation with $\mathbf{y}$ but not always
+- The variation explained by one components is removed before going for next component
+
 ]
 
 
 ---
 class: top
 
-.pull-left[
+.left-40-column[
 # Methods
 ## Principal Component Regression
 ## Partial Least Squares
+
+.left-bottom-fig[
+
+```{r, out.width='100%', dev='svg', fig.asp=0.6, fig.width=5, fig.pos='b'}
+col_vec <- rev(RColorBrewer::brewer.pal(3, "Set1"))
+rel_col <- alpha(col_vec[2], 1)
+irrel_col <- alpha(col_vec[1], 0.2)
+plt <- plot_model(rel_col, irrel_col, 1, 0.6)
+grid.newpage()
+grid.draw(grid_by_name(plt,"rect_box|labels"))
+```
+
 ]
-.pull-right[
+]
+.right-60-column[
+
+### Overview
+- With each components, it captures the maximum covariance of $\mathbf{x}$ and $\mathbf{y}$
+- Since it goes straight for covariance, it requires less number of components than PCR
+- The variation explained by one components is removed before going for next component
+
+### PLS1 vs PLS2
+- In PLS1, each response variable is modelled separately. Here the correlation structure of $\mathbf{y}$ is not modelled neither directly or indirectly
+- In PLS2, all response variables are modelled together.
+
 ]
 
 ---
 class: top
 
-.pull-left[
+.left-40-column[
 # Methods
 ## Principal Component Regression
 ## Partial Least Squares
 ## Envelope
+
+.left-bottom-fig[
+
+```{r, out.width='100%', dev='svg', fig.asp=0.6, fig.width=5, fig.pos='b'}
+col_vec <- rev(RColorBrewer::brewer.pal(3, "Set1"))
+rel_col <- alpha(col_vec[2], 1)
+irrel_col <- alpha(col_vec[1], 0.2)
+plt <- plot_model(rel_col, irrel_col, 1, 0.6)
+grid.newpage()
+grid.draw(grid_by_name(plt,"rect_box|labels"))
+```
+
 ]
-.pull-right[
+]
+.right-60-column[
+
+### Overview
+- Envelope is the smallest subspace where the span of $\boldsymbol{\beta}$ lies, i.e. $\varepsilon \in \text{span}(\boldsymbol{\beta})$
+- It starts with separating the covariance structure into relevant (material) and irrelevant (immaterial) parts through parameterization of a linear model
+
+### Envelope in Predictor Space
+- Identifies envelope throught the reduction of predictor space
+
+### Simulteneous Envelope
+- Identifies envelope throught the reduction of both response and predictor space
+
 ]
 
 ---
@@ -688,8 +754,20 @@ myBib <- ReadBib("./references.bib", check = FALSE)
 invisible(AutoCite(myBib))
 ```
 
-```{r, print_refs, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
+```{r, print_refs-1, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
 PrintBibliography(myBib, start = 1, end = 5)
+```
+
+]
+
+---
+class: top
+
+# References
+.references[
+
+```{r, print_refs-2, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
+PrintBibliography(myBib, start = 6, end = 10)
 ```
 
 ]

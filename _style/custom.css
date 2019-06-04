@@ -101,6 +101,7 @@ summary{
 }
 .right-60-column{
     width: 60%;
+    height: 100%;
     float: left;
     padding-top: 20px;
 }
@@ -109,7 +110,9 @@ summary{
     float: right;
 }
 .left-40-column{
+    position:relative;
     width: 40%;
+    height: 100%;
     float: left;
 }
 .left-40-column img {
@@ -245,4 +248,13 @@ a, a:focus, a:hover, a:visited, a:active{
 }
 .data .right-60-column p {
     margin: 0;
+}
+.left-40-column .left-bottom-fig {
+    bottom: 0;
+    position: absolute;
+}
+
+.left-bottom-fig p {
+    margin: 0;
+    padding: 0;
 }
