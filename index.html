@@ -18,9 +18,9 @@
 
 class: center, middle, inverse
 
-# A comparison of multivariate prediction methods
+# A comparison of multi-response prediction methods
 
-## Raju Rimal
+## Raju Rimal, Trygve Almøy and Solve Sæbø
 
 ### 19 June, 2019
 
@@ -29,6 +29,7 @@ class: center, middle, inverse
 [`https://therimalaya.github.io/SSC16`](https://therimalaya.github.io/SSC16)
 
 ---
+exclude: true
 
 background-image: url(_images/logo-nb.svg), url(_images/SSC16-Logo.svg)
 background-size: 35% auto, 25% auto
@@ -36,17 +37,15 @@ background-position: 25% 50%, 75% 50%
 background-repeat: no-repeat
 
 ---
-class: center, middle, inverse
 
-# Background
-## Relevant and irrelevant space in linear model
-
----
-
-class: top
+class: top, linear-model
 
 .left-column[
 # Linear Model
+## Relevant and Irrelevant Space
+
+].right-column[
+.pull-left[
 
 &lt;img src="index_files/figure-html/unnamed-chunk-2-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
@@ -56,334 +55,135 @@ class: top
 
 &lt;img src="index_files/figure-html/unnamed-chunk-3-1.svg" width="100%" style="display: block; margin: auto auto auto 0;" /&gt;
 
-]
-
-.right-column[
-
-### The Model:
-
-`$$\begin{bmatrix}
-  y \\ \mathbf{x}
-\end{bmatrix} 
-\sim \mathsf{N}\left(
-  \begin{bmatrix}
-    \boldsymbol{\mu}_y \\
-    \boldsymbol{\mu}_x
-  \end{bmatrix},
-  \begin{bmatrix}
-    \boldsymbol{\Sigma}_{yy} &amp; \boldsymbol{\Sigma}_{yx}\\ 
-    \boldsymbol{\Sigma}_{xy} &amp; \boldsymbol{\Sigma}_{xx}
-  \end{bmatrix}
-\right)$$`
-
-### Linear Regression:
-
-`$$\mathbf{y} = \boldsymbol{\mu}_y + (\mathbf{x} - \boldsymbol{\mu}_x)\boldsymbol{\beta} + \boldsymbol{\varepsilon},\; \boldsymbol{\varepsilon} \sim \mathsf{N}(0, \boldsymbol{\Sigma}_{y|x})$$`
-
-### Regression Coefficients:
-
-`$$\boldsymbol{\beta} = \boldsymbol{\Sigma}_{xx}^{-1}\boldsymbol{\Sigma}_{xy}$$`
-
-]
-
----
-
-class: top
-
-.left-column[
-# Linear Model
+].pull-right[
 
 &lt;img src="index_files/figure-html/unnamed-chunk-4-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
-
 &lt;img src="index_files/figure-html/unnamed-chunk-5-1.svg" width="100%" style="display: block; margin: auto auto auto 0;" /&gt;
 
-].right-column[
-Let us make a transformation as `\(\boldsymbol{z} = \mathbf{R} \boldsymbol{x}\)` and `\(\boldsymbol{w} = \mathbf{Q} \boldsymbol{y}\)` where `\(\mathbf{R}\)` and `\(\mathbf{Q}\)` are orthogonal matrices, i.e. `\(\mathbf{R}^t = \mathbf{R}^{-1}\)` and `\(\mathbf{Q}^t = \mathbf{Q}^{-1}\)`
-
-### New Model
-
-`$$\begin{bmatrix}
-  \mathbf{w} \\ \mathbf{z}
-\end{bmatrix} 
-\sim \mathsf{N}\left(
-  \begin{bmatrix}
-    \boldsymbol{\mu}_w \\
-    \boldsymbol{\mu}_z
-  \end{bmatrix},
-  \begin{bmatrix}
-    \boldsymbol{\Sigma}_{ww} &amp; \boldsymbol{\Sigma}_{wz}\\ 
-    \boldsymbol{\Sigma}_{zw} &amp; \boldsymbol{\Sigma}_{zz}
-  \end{bmatrix}
-\right) = 
-\mathsf{N}\left(
-  \begin{bmatrix}
-    \mu_y \\
-    \boldsymbol{\mu}_z
-  \end{bmatrix},
-  \begin{bmatrix}
-     \mathbf{Q}\boldsymbol{\Sigma}_{yy} \mathbf{Q}^t &amp;  
-     \mathbf{Q}\boldsymbol{\Sigma}_{yx} \mathbf{R}^t\\ 
-    \mathbf{R}\boldsymbol{\sigma}_{xy} \mathbf{Q}^t &amp; 
-    \mathbf{R}\boldsymbol{\Sigma}_{xx} \mathbf{R}^t
-  \end{bmatrix}
-\right)$$`
-
-### Linear Regression
-`$$\mathbf{w} = \boldsymbol{\mu}_w + \boldsymbol{\alpha}^t(\mathbf{z} - \boldsymbol{\mu}_z) + \boldsymbol{\epsilon},\; \boldsymbol{\epsilon} \sim \mathsf{N}(0, \boldsymbol{\tau}^2)$$`
-
-### Regression Coefficients
-`$$\boldsymbol{\alpha} = \mathbf{Q} \boldsymbol{\beta} \mathbf{R}^t = \boldsymbol{\Sigma}_{zz}^{-1}\boldsymbol{\Sigma}_{zw} = \left[\mathbf{R}\boldsymbol{\Sigma}_{xx}\mathbf{R}^t\right]^{-1}\mathbf{R}\boldsymbol{\Sigma}_{xy}\mathbf{Q}^t$$`
-
 ]
-
-
----
-class: top
-
-.left-40-column[
-# Methods
-## Principal Component Regression
-
-.left-bottom-fig[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-6-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
-
-]
-]
-.right-60-column[
-
-### Overview
-- With each components, it captures the maximum variation in `\(\mathbf{x}\)`
-- Mostly, hight variation in `\(\mathbf{x}\)` captures its relation with `\(\mathbf{y}\)` but not always
-- The variation explained by one components is removed before going for next component
-
-]
-
-
----
-class: top
-
-.left-40-column[
-# Methods
-## Principal Component Regression
-## Partial Least Squares
-
-.left-bottom-fig[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-7-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
-
-]
-]
-.right-60-column[
-
-### Overview
-- With each components, it captures the maximum covariance of `\(\mathbf{x}\)` and `\(\mathbf{y}\)`
-- Since it goes straight for covariance, it requires less number of components than PCR
-- The variation explained by one components is removed before going for next component
-
-### PLS1 vs PLS2
-- In PLS1, each response variable is modelled separately. Here the correlation structure of `\(\mathbf{y}\)` is not modelled neither directly or indirectly
-- In PLS2, all response variables are modelled together.
-
 ]
 
 ---
-class: top
-
-.left-40-column[
-# Methods
-## Principal Component Regression
-## Partial Least Squares
-## Envelope
-
-.left-bottom-fig[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-8-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
-
-]
-]
-.right-60-column[
-
-### Overview
-- Envelope is the smallest subspace where the span of `\(\boldsymbol{\beta}\)` lies, i.e. `\(\varepsilon \in \text{span}(\boldsymbol{\beta})\)`
-- It starts with separating the covariance structure into relevant (material) and irrelevant (immaterial) parts through parameterization of a linear model
-
-### Envelope in Predictor Space
-- Identifies envelope throught the reduction of predictor space
-
-### Simulteneous Envelope
-- Identifies envelope throught the reduction of both response and predictor space
-
-]
-
----
-class: center, middle, inverse
-
-# Simulation and Comparison
-
----
-
-class: top
+class: top, methods
 
 .left-column[
-# Simulation
-## Experimental Design
+# Methods
+### PCR
+### PLS1
+### PLS2
+### Xenv
+### Senv
 
-![](_images/gamma-animation.gif)
+].right-column[
 
+## Principal Component Regression (PCR)
+
+## Partial Least Squares
+### Modeling individual response separately (PLS1)
+### Modeling all responses together (PLS2)
+
+## Envelopes
+### Envelopes in Predictor Space (Xenv)
+### Simulteneous Envelopes (Senv)
 
 ]
 
-.right-column[
 
-&lt;img src="index_files/figure-html/design-plot-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
+---
+class: top, simulation
+
+
+
+.pull-left[
+# Simulation
 
 &lt;img src="index_files/figure-html/cov-plot-pop-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
-]
-
----
-
-class: top
-
-.left-column[
-# Simulation
-## Experimental Design
-
-![](_images/gamma-animation.gif)
-]
-
-.right-column[
+].pull-right[
+# Experimental Design
 
 &lt;img src="index_files/figure-html/design-plot-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
+]
+
+---
+class: top, simulation
+
+.pull-left[
+# Simulation
+
 &lt;img src="index_files/figure-html/cov-plot-samp-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
-]
+].pull-right[
+# Experimental Design
 
----
-class: top
-exclude: true
-
-.left-column[
-# Basis of Comparison
-## Error Analysis
-]
-.right-column[
-## Prediction Error
-`$$\mathcal{PE} = \frac{1}{\sigma^2_{y_i|x}}\mathsf{E}\left[
-\left(\beta - \hat{\beta}\right)^t\Sigma_{xx}\left(\beta - \hat{\beta}\right)
-\right]$$`
-
-## Estimation Error
-`$$\mathcal{EE} = \frac{1}{\sigma^2_{y_i}}\mathsf{E}\left[
-\left(\beta - \hat{\beta}\right)^t\left(\beta - \hat{\beta}\right)
-\right]$$`
+&lt;img src="index_files/figure-html/design-plot-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
-
----
-class: top
-exclude: true
-
-.left-column[
-# Basis of Comparison
-## Component Analysis
-]
-.right-column[
-## Component used to obtain minimum prediction error
-`$$\mathcal{nc_\circ(\mathcal{PE})} = \underset{nc}{\mathrm{argmin}}\left(\mathcal{PE}_{nc}\right)$$`
-
-## Component used to obtain minimum estimation error
-`$$\mathcal{nc_\circ(\mathcal{EE})} = \underset{nc}{\mathrm{argmin}}\left(\mathcal{EE}_{nc}\right)$$`
-
-]
-
----
-class: center, middle, inverse
-
-# Analysis and Results
-
-
-
-
 
 ---
 class: top, data
 
-.left-40-column[
+
+
+
+
 # Data for Analysis
+
+.pull-left[
+
+&lt;img src="index_files/figure-html/data-design-tbl-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+].pull-right[
+
 ## Error Model
 
-&lt;img src="index_files/figure-html/data-design-tbl-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
-
-
-].right-60-column[
-
-
-
-&lt;img src="index_files/figure-html/unnamed-chunk-9-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
-
 `$$\mathtt{Pred.Error} \sim \left(\mathtt{p} + \mathtt{relpos} + \mathtt{gamma} + \mathtt{eta} + \mathtt{Methods}\right)^3$$`
-
-]
-
-
----
-class: top, data
-
-.left-40-column[
-# Data for Analysis
 ## Component Model
-
-&lt;img src="index_files/figure-html/data-design-tbl-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
-
-
-].right-60-column[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-10-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
-
-`$$\mathtt{Min.Components} \sim \left(\mathtt{p} + \mathtt{relpos} +
-  \mathtt{gamma} + \mathtt{eta} + \mathtt{Methods}\right)^3$$`
-
-]
-
-
----
-class: top
-
-.left-40-column[
-# Prediction Error
-## Manova
-
-&lt;img src="index_files/figure-html/pred-err-eff-1-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
-
-
-].right-60-column[
-
-&lt;img src="index_files/figure-html/pred-manova-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
+`$$\mathtt{Min.Components} \sim \left(\mathtt{p} + \mathtt{relpos} + \mathtt{gamma} + \mathtt{eta} + \mathtt{Methods}\right)^3$$`
 
 ]
 
 ---
 class: top
 
-.left-40-column[
+.pull-left[
 # Prediction Error
-## Manova
+
+&lt;img src="index_files/figure-html/pred-err-eff-1-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
 
-&lt;img src="index_files/figure-html/pred-err-eff-2-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
+].pull-right[
+# Manova
 
-].right-60-column[
 
-&lt;img src="index_files/figure-html/pred-manova-1.svg" width="95%" style="display: block; margin: auto;" /&gt;
+
+
+&lt;img src="index_files/figure-html/pred-manova-1-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+class: top
+
+.pull-left[
+# Prediction Error
+
+
+&lt;img src="index_files/figure-html/pred-err-eff-2-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
+
+].pull-right[
+# Manova
+
+&lt;img src="index_files/figure-html/pred-manova-2-1.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ---
 class: top, acknowledgment
+exclude: true
 
 .pull-left[
 # Acknowledgement
@@ -410,112 +210,27 @@ class: top, acknowledgment
 
 ---
 
-
-
-class: top
+class: top, reference
 
 # References
-.references[
 
+.left-column[
+[R-package: `simrel`](https://cran.r-project.org/web/packages/simrel/index.html)
 
+&lt;img src="_images/simrel-hex.svg" width="100%" style="display: block; margin: auto;" /&gt;
 
-Almøy, T. (1996). "A simulation study on comparison of prediction
-methods when only a few components are relevant". In:
-_Computational Statistics &amp; Data Analysis_ 21.1, pp. 87-107. DOI:
-[10.1016/0167-9473(95)00006-2](https://doi.org/10.1016/0167-9473(95)00006-2).
-URL:
-[https://doi.org/10.1016/0167-9473(95)00006-2](https://doi.org/10.1016/0167-9473(95)00006-2).
+]
 
-Cook, R. D, I. S. Helland and Z. Su (2013). "Envelopes and partial
-least squares regression". In: _Journal of the Royal Statistical
-Society. Series B: Statistical Methodology_ 75.5, pp. 851-877.
-ISSN: 13697412. DOI:
-[10.1111/rssb.12018](https://doi.org/10.1111/rssb.12018).
+.right-column[
+[Comparison of multi-response prediction methods. In: _Chemometrics and Intelligent Laboratory Systems_ DOI: `https://doi.org/10.1016/j.chemolab.2019.05.004`](https://www.sciencedirect.com/science/article/pii/S016974391930187X)
 
-Cook, R. D. and X. Zhang (2015). "Simultaneous envelopes for
-multivariate linear regression". In: _Technometrics_ 57.1, pp.
-11-25. ISSN: 15372723. DOI:
-[10.1080/00401706.2013.872700](https://doi.org/10.1080/00401706.2013.872700).
-
-Helland, I. S. and T. Almøy (1994). "Comparison of prediction
-methods when only a few components are relevant". In: _Journal of
-the American Statistical Association_ 89.426, pp. 583-591.
-
-Helland, I. S, S. Sæbø, T. Almøy, et al. "Model and estimators for
-partial least squares regression". In: _Journal of Chemometrics_,
-p. e3044.
+&lt;img src="_images/Paper-Screenshot.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ---
-class: top
+exclude: true
 
-# References
-.references[
-
-Helland, I. S, S. Saebø, T. Almøy, et al. (2018). "Model and
-estimators for partial least squares regression". In: _Journal of
-Chemometrics_ 32.9, p. e3044. ISSN: 08869383. DOI:
-[10.1002/cem.3044](https://doi.org/10.1002/cem.3044).
-
-Rimal, R, T. Almøy and S. S. ø (2018). "A tool for simulating
-multi-response linear model data". In: _Chemometrics and
-Intelligent Laboratory Systems_ 176, pp. 1 - 10. ISSN: 0169-7439.
-DOI:
-[https://doi.org/10.1016/j.chemolab.2018.02.009](https://doi.org/https://doi.org/10.1016/j.chemolab.2018.02.009).
-URL:
-[http://www.sciencedirect.com/science/article/pii/S0169743917304823](http://www.sciencedirect.com/science/article/pii/S0169743917304823).
-
-Rimal, R, T. Almøy and S. Sæbø (2018). "A tool for simulating
-multi-response linear model data". In: _Chemometrics and
-Intelligent Laboratory Systems_ 176, pp. 1-10.
-
-Rimal, R, T. Almøy and S. Sæbø (2019). "Comparison of
-multi-response prediction methods". In: _Chemometrics and
-Intelligent Laboratory Systems_ 190, pp. 10 - 21. ISSN: 0169-7439.
-DOI:
-[https://doi.org/10.1016/j.chemolab.2019.05.004](https://doi.org/https://doi.org/10.1016/j.chemolab.2019.05.004).
-URL:
-[http://www.sciencedirect.com/science/article/pii/S016974391930187X](http://www.sciencedirect.com/science/article/pii/S016974391930187X).
-
-Sæbø, S, T. Almøy and I. S. Helland (2015). "simrel - A versatile
-tool for linear model data simulation based on the concept of a
-relevant subspace and relevant predictors". In: _Chemometrics and
-Intelligent Laboratory Systems_.
-
-]
-
----
-
-# Installation
-.flex-box[
-.installation-details[
-
-## R-Package
-
-
-```r
-install.packages("simrel")
-
-if (!require(devtools)) install.packages("devtools")
-devtools::install_github("simulatr/simrel")
-```
-
-## Shiny Application
-
-
-```r
-if (!require(simrel)) install.packages("simrel")
-shiny::runGitHub("simulatr/AppSimulatr")
-```
-
-]
-
-&lt;img src="_images/simrel-hex.svg" width="75%" id='simrel-hex' style="display: block; margin: auto;" /&gt;
-
-]
-
----
 background-image: url(_images/Thank-You.svg)
 background-size: cover
 background-position: center

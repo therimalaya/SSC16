@@ -34,7 +34,7 @@ options(htmltools.dir.version = FALSE, digits = 3, signif = 999)
 ## Chunk Options
 knitr::opts_chunk$set(
   echo = FALSE, comment = NULL, eval = TRUE,
-  dev = 'svg', out.width='95%', fig.retina=2,
+  dev = 'svg', out.width='100%', fig.retina=2,
   fig.align = 'center', warning = FALSE,
   message = FALSE)
 ## Hightlight part of code hook
@@ -59,9 +59,9 @@ library(ggridges)
 
 class: center, middle, inverse
 
-# A comparison of multivariate prediction methods
+# A comparison of multi-response prediction methods
 
-## Raju Rimal
+## Raju Rimal, Trygve Almøy and Solve Sæbø
 
 ### 19 June, 2019
 
@@ -72,6 +72,7 @@ knitr::include_graphics("_images/NMBUwhite.svg")
 [`https://therimalaya.github.io/SSC16`](https://therimalaya.github.io/SSC16)
 
 ---
+exclude: true
 
 background-image: url(_images/logo-nb.svg), url(_images/SSC16-Logo.svg)
 background-size: 35% auto, 25% auto
@@ -79,17 +80,15 @@ background-position: 25% 50%, 75% 50%
 background-repeat: no-repeat
 
 ---
-class: center, middle, inverse
 
-# Background
-## Relevant and irrelevant space in linear model
-
----
-
-class: top
+class: top, linear-model
 
 .left-column[
 # Linear Model
+## Relevant and Irrelevant Space
+
+].right-column[
+.pull-left[
 
 ```{r, out.width='100%', dev='svg', fig.asp=0.6, fig.align='center', fig.width=5, eval = TRUE}
 col_vec <- rev(RColorBrewer::brewer.pal(3, "Set1"))
@@ -126,42 +125,7 @@ plot_cov(sobj, type = "relpred", ordering = FALSE, facetting = FALSE) +
   ))
 ```
 
-]
-
-.right-column[
-
-### The Model:
-
-$$\begin{bmatrix}
-  y \\ \mathbf{x}
-\end{bmatrix} 
-\sim \mathsf{N}\left(
-  \begin{bmatrix}
-    \boldsymbol{\mu}_y \\
-    \boldsymbol{\mu}_x
-  \end{bmatrix},
-  \begin{bmatrix}
-    \boldsymbol{\Sigma}_{yy} & \boldsymbol{\Sigma}_{yx}\\ 
-    \boldsymbol{\Sigma}_{xy} & \boldsymbol{\Sigma}_{xx}
-  \end{bmatrix}
-\right)$$
-
-### Linear Regression:
-
-$$\mathbf{y} = \boldsymbol{\mu}_y + (\mathbf{x} - \boldsymbol{\mu}_x)\boldsymbol{\beta} + \boldsymbol{\varepsilon},\; \boldsymbol{\varepsilon} \sim \mathsf{N}(0, \boldsymbol{\Sigma}_{y|x})$$
-
-### Regression Coefficients:
-
-$$\boldsymbol{\beta} = \boldsymbol{\Sigma}_{xx}^{-1}\boldsymbol{\Sigma}_{xy}$$
-
-]
-
----
-
-class: top
-
-.left-column[
-# Linear Model
+].pull-right[
 
 ```{r, out.width='100%', dev='svg', fig.asp=0.6, fig.align='center', fig.width=5, eval = TRUE}
 col_vec <- rev(RColorBrewer::brewer.pal(3, "Set1"))
@@ -172,190 +136,46 @@ grid.newpage()
 grid.draw(grid_by_name(plt,"rect_box|yrel_space|xrel_space|labels|in_labels|arrow_ann"))
 ```
 
-
 ```{r, fig.width = 4, dev= 'svg', fig.asp = 1, fig.align='left', out.width = '100%'}
 plot_cov(sobj, type = "relpos", ordering = FALSE, facetting = FALSE)
 ```
 
-].right-column[
-Let us make a transformation as $\boldsymbol{z} = \mathbf{R} \boldsymbol{x}$ and $\boldsymbol{w} = \mathbf{Q} \boldsymbol{y}$ where $\mathbf{R}$ and $\mathbf{Q}$ are orthogonal matrices, i.e. $\mathbf{R}^t = \mathbf{R}^{-1}$ and $\mathbf{Q}^t = \mathbf{Q}^{-1}$
-
-### New Model
-
-$$\begin{bmatrix}
-  \mathbf{w} \\ \mathbf{z}
-\end{bmatrix} 
-\sim \mathsf{N}\left(
-  \begin{bmatrix}
-    \boldsymbol{\mu}_w \\
-    \boldsymbol{\mu}_z
-  \end{bmatrix},
-  \begin{bmatrix}
-    \boldsymbol{\Sigma}_{ww} & \boldsymbol{\Sigma}_{wz}\\ 
-    \boldsymbol{\Sigma}_{zw} & \boldsymbol{\Sigma}_{zz}
-  \end{bmatrix}
-\right) = 
-\mathsf{N}\left(
-  \begin{bmatrix}
-    \mu_y \\
-    \boldsymbol{\mu}_z
-  \end{bmatrix},
-  \begin{bmatrix}
-     \mathbf{Q}\boldsymbol{\Sigma}_{yy} \mathbf{Q}^t &  
-     \mathbf{Q}\boldsymbol{\Sigma}_{yx} \mathbf{R}^t\\ 
-    \mathbf{R}\boldsymbol{\sigma}_{xy} \mathbf{Q}^t & 
-    \mathbf{R}\boldsymbol{\Sigma}_{xx} \mathbf{R}^t
-  \end{bmatrix}
-\right)$$
-
-### Linear Regression
-$$\mathbf{w} = \boldsymbol{\mu}_w + \boldsymbol{\alpha}^t(\mathbf{z} - \boldsymbol{\mu}_z) + \boldsymbol{\epsilon},\; \boldsymbol{\epsilon} \sim \mathsf{N}(0, \boldsymbol{\tau}^2)$$
-
-### Regression Coefficients
-$$\boldsymbol{\alpha} = \mathbf{Q} \boldsymbol{\beta} \mathbf{R}^t = \boldsymbol{\Sigma}_{zz}^{-1}\boldsymbol{\Sigma}_{zw} = \left[\mathbf{R}\boldsymbol{\Sigma}_{xx}\mathbf{R}^t\right]^{-1}\mathbf{R}\boldsymbol{\Sigma}_{xy}\mathbf{Q}^t$$
-
 ]
-
-
----
-class: top
-
-.left-40-column[
-# Methods
-## Principal Component Regression
-
-.left-bottom-fig[
-
-```{r, out.width='100%', dev='svg', fig.asp=0.6, fig.width=5, fig.pos='b'}
-col_vec <- rev(RColorBrewer::brewer.pal(3, "Set1"))
-rel_col <- alpha(col_vec[2], 1)
-irrel_col <- alpha(col_vec[1], 0.2)
-plt <- plot_model(rel_col, irrel_col, 1, 0.6)
-grid.newpage()
-grid.draw(grid_by_name(plt,"rect_box|labels"))
-```
-
-]
-]
-.right-60-column[
-
-### Overview
-- With each components, it captures the maximum variation in $\mathbf{x}$
-- Mostly, hight variation in $\mathbf{x}$ captures its relation with $\mathbf{y}$ but not always
-- The variation explained by one components is removed before going for next component
-
-]
-
-
----
-class: top
-
-.left-40-column[
-# Methods
-## Principal Component Regression
-## Partial Least Squares
-
-.left-bottom-fig[
-
-```{r, out.width='100%', dev='svg', fig.asp=0.6, fig.width=5, fig.pos='b'}
-col_vec <- rev(RColorBrewer::brewer.pal(3, "Set1"))
-rel_col <- alpha(col_vec[2], 1)
-irrel_col <- alpha(col_vec[1], 0.2)
-plt <- plot_model(rel_col, irrel_col, 1, 0.6)
-grid.newpage()
-grid.draw(grid_by_name(plt,"rect_box|labels"))
-```
-
-]
-]
-.right-60-column[
-
-### Overview
-- With each components, it captures the maximum covariance of $\mathbf{x}$ and $\mathbf{y}$
-- Since it goes straight for covariance, it requires less number of components than PCR
-- The variation explained by one components is removed before going for next component
-
-### PLS1 vs PLS2
-- In PLS1, each response variable is modelled separately. Here the correlation structure of $\mathbf{y}$ is not modelled neither directly or indirectly
-- In PLS2, all response variables are modelled together.
-
 ]
 
 ---
-class: top
-
-.left-40-column[
-# Methods
-## Principal Component Regression
-## Partial Least Squares
-## Envelope
-
-.left-bottom-fig[
-
-```{r, out.width='100%', dev='svg', fig.asp=0.6, fig.width=5, fig.pos='b'}
-col_vec <- rev(RColorBrewer::brewer.pal(3, "Set1"))
-rel_col <- alpha(col_vec[2], 1)
-irrel_col <- alpha(col_vec[1], 0.2)
-plt <- plot_model(rel_col, irrel_col, 1, 0.6)
-grid.newpage()
-grid.draw(grid_by_name(plt,"rect_box|labels"))
-```
-
-]
-]
-.right-60-column[
-
-### Overview
-- Envelope is the smallest subspace where the span of $\boldsymbol{\beta}$ lies, i.e. $\varepsilon \in \text{span}(\boldsymbol{\beta})$
-- It starts with separating the covariance structure into relevant (material) and irrelevant (immaterial) parts through parameterization of a linear model
-
-### Envelope in Predictor Space
-- Identifies envelope throught the reduction of predictor space
-
-### Simulteneous Envelope
-- Identifies envelope throught the reduction of both response and predictor space
-
-]
-
----
-class: center, middle, inverse
-
-# Simulation and Comparison
-
----
-
-class: top
+class: top, methods
 
 .left-column[
-# Simulation
-## Experimental Design
+# Methods
+### PCR
+### PLS1
+### PLS2
+### Xenv
+### Senv
 
-![](_images/gamma-animation.gif)
+].right-column[
 
+## Principal Component Regression (PCR)
+
+## Partial Least Squares
+### Modeling individual response separately (PLS1)
+### Modeling all responses together (PLS2)
+
+## Envelopes
+### Envelopes in Predictor Space (Xenv)
+### Simulteneous Envelopes (Senv)
 
 ]
 
-.right-column[
 
-```{r design-plot, echo = FALSE, fig.asp=0.4, fig.width=8, out.width='100%'}
-design_chr %>%
-    mutate(Design = row_number()) %>%
-    ggplot(aes(eta, gamma)) +
-    geom_point(shape=4) +
-    ggrepel::geom_text_repel(
-      aes(label = Design),
-      nudge_x = 0.03, family = 'mono', fontface = "bold") +
-    facet_grid(p ~ relpos, labeller=label_both) +
-  scale_y_reverse(breaks = opts$gamma) +
-    scale_x_continuous(breaks = opts$eta) +
-    theme_minimal(base_size = 16, base_family = "mono") +
-    theme(panel.grid.minor = element_blank(), text = element_text(face = "bold")) +
-    coord_fixed(ratio=0.5)
-```
+---
+class: top, simulation
+
 ```{r cov-plot-prep}
 selected_designs <- design %>%
   mutate(Design = row_number()) %>%
-  filter(p == 20, eta == 0)
+  filter(Design %in% c(1, 9))
 sobj_list <- lapply(1:nrow(selected_designs), function(i){
   set.seed(2019)
   selected_designs %>% select(-Design) %>% get_design(i) %>% simulate()
@@ -393,7 +213,13 @@ design_lbl <- with(design_chr_selected, {
 })
 names(design_lbl) <- design_name
 ```
-```{r cov-plot-pop, fig.pos = "H", fig.asp=0.5, fig.width=7, out.width='100%'}
+
+.pull-left[
+# Simulation
+
+```{r cov-plot-pop, fig.width=6, fig.asp=1}
+lbl <- sapply(opts[c("n", "R2")], unique)
+lbl <- paste(names(lbl), lbl, sep = ": ", collapse = ", ")
 sigma_zy %>% 
   filter(Type == "Population") %>% 
   ggplot(aes(Predictor, Covariance, color = factor(Response))) +
@@ -403,7 +229,7 @@ sigma_zy %>%
            stat = "identity", inherit.aes = FALSE) +
   geom_point(size = rel(0.8)) +
   geom_line(size = rel(0.5)) +
-  facet_grid(cols = vars(Design), rows = vars(Type),
+  facet_grid(rows = vars(Design), cols = vars(Type),
              labeller = labeller(Design = design_lbl )) +
   theme(legend.position = "bottom") +
   labs(x = "Components",
@@ -411,28 +237,45 @@ sigma_zy %>%
        color = "Response Variable",
        title = "Covariance between Predictor Components and Responses",
        subtitle = "High/Low Multicollinearity with near/far relevant predictors") +
-  scale_color_brewer(palette = "Set1")
+  scale_color_brewer(palette = "Set1") +
+  annotate(geom = "text", label = lbl, x = Inf, y = Inf, hjust = 1, 
+           vjust = 2, family = "mono", size = rel(5))
+```
+
+].pull-right[
+# Experimental Design
+
+```{r design-plot}
+design_chr %>%
+  mutate(Design = row_number()) %>%
+  ggplot(aes(p, rev(gamma), color = Design %in% c(1, 9))) +
+  geom_point(shape=4, show.legend = FALSE) +
+  ggrepel::geom_text_repel(
+    aes(label = formatC(Design, flag = "0", digits = 1, format = "fg")),
+    nudge_x = 0.03, family = 'mono', fontface = "bold", size = rel(5),
+    show.legend = FALSE) +
+  facet_grid(eta ~ relpos, labeller=label_both) +
+  theme_minimal(base_size = 16, base_family = "mono") +
+  theme(panel.grid.minor = element_blank(), text = element_text(face = "bold")) +
+  scale_x_continuous(breaks = unique(design_chr$p)) +
+  scale_y_continuous(breaks = unique(design_chr$gamma)) +
+  labs(x = "Number of Predictors (p)",
+       y = "Level of Multicollinearity (eta)") +
+  coord_equal(ratio = 200) +
+  scale_color_manual(values = 1:2)
 ```
 
 ]
 
 ---
+class: top, simulation
 
-class: top
-
-.left-column[
+.pull-left[
 # Simulation
-## Experimental Design
 
-![](_images/gamma-animation.gif)
-]
-
-.right-column[
-
-```{r design-plot, echo = FALSE, fig.asp=0.4, fig.width=8, out.width='100%'}
-```
-
-```{r cov-plot-samp, fig.pos = "H", fig.asp=0.5, fig.width=7, out.width='100%'}
+```{r cov-plot-samp, fig.width=6, fig.asp=1}
+lbl <- sapply(opts[c("n", "R2")], unique)
+lbl <- paste(names(lbl), lbl, sep = ": ", collapse = ", ")
 sigma_zy %>% 
   filter(Type == "Sample") %>% 
   ggplot(aes(Predictor, Covariance, color = factor(Response))) +
@@ -442,7 +285,7 @@ sigma_zy %>%
            stat = "identity", inherit.aes = FALSE) +
   geom_point(size = rel(0.8)) +
   geom_line(size = rel(0.5)) +
-  facet_grid(cols = vars(Design), rows = vars(Type),
+  facet_grid(rows = vars(Design), cols = vars(Type),
              labeller = labeller(Design = design_lbl )) +
   theme(legend.position = "bottom") +
   labs(x = "Components",
@@ -450,53 +293,21 @@ sigma_zy %>%
        color = "Response Variable",
        title = "Covariance between Predictor Components and Responses",
        subtitle = "High/Low Multicollinearity with near/far relevant predictors") +
-  scale_color_brewer(palette = "Set1")
+  scale_color_brewer(palette = "Set1") +
+  annotate(geom = "text", label = lbl, x = Inf, y = Inf, hjust = 1, 
+           vjust = 2, family = "mono", size = rel(5))
+```
+
+].pull-right[
+# Experimental Design
+
+```{r design-plot}
 ```
 
 ]
 
 ---
-class: top
-exclude: true
-
-.left-column[
-# Basis of Comparison
-## Error Analysis
-]
-.right-column[
-## Prediction Error
-$$\mathcal{PE} = \frac{1}{\sigma^2_{y_i|x}}\mathsf{E}\left[
-\left(\beta - \hat{\beta}\right)^t\Sigma_{xx}\left(\beta - \hat{\beta}\right)
-\right]$$
-
-## Estimation Error
-$$\mathcal{EE} = \frac{1}{\sigma^2_{y_i}}\mathsf{E}\left[
-\left(\beta - \hat{\beta}\right)^t\left(\beta - \hat{\beta}\right)
-\right]$$
-
-]
-
----
-class: top
-exclude: true
-
-.left-column[
-# Basis of Comparison
-## Component Analysis
-]
-.right-column[
-## Component used to obtain minimum prediction error
-$$\mathcal{nc_\circ(\mathcal{PE})} = \underset{nc}{\mathrm{argmin}}\left(\mathcal{PE}_{nc}\right)$$
-
-## Component used to obtain minimum estimation error
-$$\mathcal{nc_\circ(\mathcal{EE})} = \underset{nc}{\mathrm{argmin}}\left(\mathcal{EE}_{nc}\right)$$
-
-]
-
----
-class: center, middle, inverse
-
-# Analysis and Results
+class: top, data
 
 ```{r pred}
 pred_dta <- design_chr %>%
@@ -507,10 +318,6 @@ pred_dta <- design_chr %>%
   mutate_if(is.character, as.factor) %>%
   mutate_at("p", as.factor) %>%
   mutate(Response = paste0("Y", Response))
-pred_spread_df <- pred_dta %>%
-  as.data.frame() %>%
-  select(-Design, -q) %>%
-  spread(Response, Pred_Error)
 min_comp_stk <- pred_dta %>%
   group_by(p, relpos, eta, gamma, Method, Tuning_Param, Response) %>%
   summarize(Pred_Error = mean(Pred_Error)) %>%
@@ -543,85 +350,46 @@ comp_aov_pred <- anova(comp_mdl_pred) %>%
 aov_df_pred <- bind_rows(list(Pred = pred_aov, Comp = comp_aov_pred), .id = "Type")
 ```
 
----
-class: top, data
-
-.left-40-column[
 # Data for Analysis
-## Error Model
 
-```{r data-design-tbl, fig.asp=1.2}
+.pull-left[
+
+```{r data-design-tbl, fig.asp=1, fig.width=8, out.width="100%"}
 source("_script/data-design.R")
 data_design_tbl
 ```
 
 
-].right-60-column[
+].pull-right[
 
-```{r pca}
-pred_pca <- with(pred_min, prcomp(cbind(Y1, Y2, Y3, Y4)))
-expl_var <- explvar(pred_pca) %>% round(2)
-pred_dta_with_pc <- bind_cols(pred_min, as.data.frame(scores(pred_pca)[]))
-comp_pca_pred <- with(comp_min_pred, prcomp(cbind(Y1, Y2, Y3, Y4)))
-comp_expl_var <- explvar(comp_pca_pred) %>% round(2)
-comp_dta_with_pc <- bind_cols(comp_min_pred, as.data.frame(scores(comp_pca_pred)[]))
-```
-
-```{r, message=FALSE, warning=FALSE}
-pc_density_plot(pred_dta_with_pc, expl_var,
-                title = "Density of PCA scores for error model")
-```
+## Error Model
 
 $$\mathtt{Pred.Error} \sim \left(\mathtt{p} + \mathtt{relpos} + \mathtt{gamma} + \mathtt{eta} + \mathtt{Methods}\right)^3$$
-
-]
-
-
----
-class: top, data
-
-.left-40-column[
-# Data for Analysis
 ## Component Model
-
-```{r data-design-tbl, fig.asp=1.2}
-```
-
-
-].right-60-column[
-
-```{r, message=FALSE, warning=FALSE}
-pc_density_plot(comp_dta_with_pc, comp_expl_var,
-                title = "Density of PCA scores for component model")
-```
-
-$$\mathtt{Min.Components} \sim \left(\mathtt{p} + \mathtt{relpos} +
-  \mathtt{gamma} + \mathtt{eta} + \mathtt{Methods}\right)^3$$
+$$\mathtt{Min.Components} \sim \left(\mathtt{p} + \mathtt{relpos} + \mathtt{gamma} + \mathtt{eta} + \mathtt{Methods}\right)^3$$
 
 ]
-
 
 ---
 class: top
 
-.left-40-column[
+.pull-left[
 # Prediction Error
-## Manova
 
-```{r pred-err-eff-1, fig.asp=1.2, eval = TRUE}
+```{r pred-err-eff-1, eval = TRUE}
 thm <- theme(plot.title = element_blank(),
              plot.subtitle = element_blank(),
              legend.position = "top")
 plt1 <- eff_df("eta:relpos:Method", pred_mdl) %>%
   eff_plot3(reorder = FALSE, labeller = label_both, switch_facet = TRUE) +
-  theme_grey(base_family = "mono", base_size = 16) +
+  theme_grey(base_family = "mono", base_size = 15) +
   thm +
   labs(x = NULL,
        y = "Min. Prediction Error") +
   scale_y_continuous(labels = function(x) formatC(x, flag = "0", digits = 2, format = "f"))
 plt2 <- eff_df("eta:relpos:Method", comp_mdl_pred) %>%
   eff_plot3(reorder = FALSE, labeller = label_both, switch_facet = TRUE) +
-  theme_grey(base_family = "mono", base_size = 16) +
+  theme_grey(base_family = "mono", base_size = 15) +
   thm +
   theme(legend.position = "none") +
   labs(x = "Methods",
@@ -633,33 +401,57 @@ grid::grid.draw(plt)
 ```
 
 
-].right-60-column[
+].pull-right[
+# Manova
 
-```{r pred-manova}
+```{r pred-manova-data}
 model_labels <- c(
-  Comp = "Model: Number of Components",
-  Pred = "Model: Prediction Error"
+  Comp = "Number of Components",
+  Pred = "Prediction Error"
 )
-aov_df_pred %>%
-    filter(!(Factors %in% c('Residuals', '(Intercept)'))) %>%
-    select(Model = Type, Factors, Pillai,
-           Fvalue = `approx F`, Pvalue = `Pr(>F)`) %>%
-    mutate(Model = factor(Model, levels = c("Pred", "Comp"))) %>%
-    mutate(Pvalue = ifelse(Pvalue < 0.05, "<0.05", ">=0.05")) %>%
+plt_data <- aov_df_pred %>%
+  filter(!(Factors %in% c('Residuals', '(Intercept)'))) %>%
+  select(Model = Type, Factors, Pillai,
+         Fvalue = `approx F`, Pvalue = `Pr(>F)`) %>%
+  mutate(Model = factor(Model, levels = c("Pred", "Comp"))) %>%
+  mutate(Pvalue = ifelse(Pvalue < 0.05, "<0.05", ">=0.05"))
+
+get_manova_plot <- function(plt_data, term = NULL) {
+  plt_x_lbl <- plt_data %>% 
+    group_by(Factors) %>% 
+    summarise(Pillai = mean(Pillai)) %>% 
+    arrange(desc(Pillai)) %>% 
+    pluck("Factors")
+  plt <- plt_data %>%
     ggplot(aes(reorder(Factors, Pillai), Pillai, fill = Pvalue)) +
     geom_bar(stat = "identity") +
     geom_text(aes(label = round(Fvalue, 2)), family = 'mono',
               angle = 0, hjust = "inward", size = 3) +
     facet_grid(cols = vars(Model), scales = 'free_y',
                labeller = labeller(Model = model_labels)) +
-    theme_grey(base_family = "mono") +
+    theme_grey(base_family = "mono", base_size = 14) +
     theme(legend.position = c(0.85, 0.1),
-          legend.direction = 'horizontal',
+          legend.direction = 'verticle',
           axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+    scale_x_discrete(position = "top") +
     guides(fill = guide_legend(title.position = "top",
                                title.hjust = 0.5)) +
     labs(x = NULL, y = "Pillai Statistic") +
     coord_flip()
+  if (!is.null(term)) {
+    plt <- plt + theme(
+      axis.text.y = element_text(
+        color = rev(ifelse(grepl(term, plt_x_lbl), "red", "black"))
+      )
+    )
+  }
+  return(plt)
+}
+```
+
+
+```{r pred-manova-1}
+get_manova_plot(plt_data, term = "^relpos$|^Method$|^relpos:Method$|^eta:relpos:Method$")
 ```
 
 ]
@@ -667,24 +459,23 @@ aov_df_pred %>%
 ---
 class: top
 
-.left-40-column[
+.pull-left[
 # Prediction Error
-## Manova
 
 
-```{r pred-err-eff-2, fig.asp=1.2, eval = TRUE}
+```{r pred-err-eff-2, eval = TRUE}
 thm <- theme(plot.title = element_blank(),
              plot.subtitle = element_blank(),
              legend.position = "top")
 plt1 <- eff_df("relpos:gamma:Method", pred_mdl) %>%
   eff_plot3(reorder = FALSE, labeller = label_both, switch_facet = TRUE) +
-  theme_grey(base_family = "mono", base_size = 16) +
+  theme_grey(base_family = "mono", base_size = 15) +
   thm +
   labs(x = NULL,
        y = "Min. Prediction Error")
 plt2 <- eff_df("relpos:gamma:Method", comp_mdl_pred) %>%
   eff_plot3(reorder = FALSE, labeller = label_both, switch_facet = TRUE) +
-  theme_grey(base_family = "mono", base_size = 16) +
+  theme_grey(base_family = "mono", base_size = 15) +
   thm +
   theme(legend.position = "none") +
   labs(x = "Methods",
@@ -695,15 +486,18 @@ grid::grid.newpage()
 grid::grid.draw(plt)
 ```
 
-].right-60-column[
+].pull-right[
+# Manova
 
-```{r pred-manova}
+```{r pred-manova-2}
+get_manova_plot(plt_data, term = "^gamma$|^Method$|^gamma:Method$|^gamma:relpos:Method$")
 ```
 
 ]
 
 ---
 class: top, acknowledgment
+exclude: true
 
 .pull-left[
 # Acknowledgement
@@ -734,75 +528,31 @@ knitr::include_graphics('_images/trygve.jpg')
 
 ---
 
-
-
-class: top
+class: top, reference
 
 # References
-.references[
 
-```{r, load_refs, echo=FALSE}
-library(RefManageR)
+.left-column[
+[R-package: `simrel`](https://cran.r-project.org/web/packages/simrel/index.html)
 
-BibOptions(check.entries = FALSE, 
-           bib.style = "authoryear", 
-           cite.style = 'alphabetic', 
-           style = "markdown",
-           hyperlink = FALSE, 
-           dashed = FALSE)
-myBib <- ReadBib("./references.bib", check = FALSE)
-invisible(AutoCite(myBib))
+```{r}
+knitr::include_graphics("_images/simrel-hex.svg")
 ```
 
-```{r, print_refs-1, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
-PrintBibliography(myBib, start = 1, end = 5)
+]
+
+.right-column[
+[Comparison of multi-response prediction methods. In: _Chemometrics and Intelligent Laboratory Systems_ DOI: `https://doi.org/10.1016/j.chemolab.2019.05.004`](https://www.sciencedirect.com/science/article/pii/S016974391930187X)
+
+```{r}
+knitr::include_graphics("_images/Paper-Screenshot.png")
 ```
 
 ]
 
 ---
-class: top
+exclude: true
 
-# References
-.references[
-
-```{r, print_refs-2, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
-PrintBibliography(myBib, start = 6, end = 10)
-```
-
-]
-
----
-
-# Installation
-.flex-box[
-.installation-details[
-
-## R-Package
-
-```{r, eval = FALSE, echo = TRUE}
-install.packages("simrel")
-
-if (!require(devtools)) install.packages("devtools")
-devtools::install_github("simulatr/simrel")
-```
-
-## Shiny Application
-
-```{r, eval = FALSE, echo = TRUE}
-if (!require(simrel)) install.packages("simrel")
-shiny::runGitHub("simulatr/AppSimulatr")
-```
-
-]
-
-```{r, out.extra="id='simrel-hex'", fig.asp=1, out.width='75%'}
-knitr::include_graphics('_images/simrel-hex.svg')
-```
-
-]
-
----
 background-image: url(_images/Thank-You.svg)
 background-size: cover
 background-position: center
