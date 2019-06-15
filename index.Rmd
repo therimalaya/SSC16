@@ -14,7 +14,7 @@ output:
     mathjax: null
     seal: false
     nature:
-      ratio: 16:9
+      ratio: 16:10
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false

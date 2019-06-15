@@ -755,8 +755,11 @@ eff_plot2 <- function(term, model, show_errorbar = FALSE,
 
 ## ---- Relevant Space Diagram ----
 plot_relspace <- function(rect_height = c(0.6, 0.6), rect_width = c(0.2, 0.6), rect_gap = 0.1,
-                          space_fill_color = c('blue4', 'green3'), rect_fill_color = NULL) {
+                          space_fill_color = c('blue4', 'green3'), rect_fill_color = NULL, 
+                          rect_alpha = 0.5, space_alpha = 0.5) {
     require(grid)
+    xlim <- c(0, 1000)
+    ylim <- c(0, 500)
 
     ## Starting coordinate for y
     y_x0 <- 0.05
@@ -775,18 +778,19 @@ plot_relspace <- function(rect_height = c(0.6, 0.6), rect_width = c(0.2, 0.6), r
     x_height <- rect_height[2]
 
     grid.newpage()
-
     ## Rectangles for X and Y variables ----
     grid.rect(x = y_x0,
               y = y_y0,
               height = y_height,
               width = y_width,
-              hjust = 0, vjust = 0)
+              hjust = 0, vjust = 0,
+              gp = gpar(fill=rect_fill_color, alpha = rect_alpha))
     grid.rect(x = x_x0,
               y = x_y0,
               height = x_height,
               width = x_width,
-              hjust = 0, vjust = 0)
+              hjust = 0, vjust = 0,
+              gp = gpar(fill=rect_fill_color, alpha = rect_alpha))
 
     ## Relevant space in Y space ----
     df_y <- data.frame(
@@ -796,7 +800,7 @@ plot_relspace <- function(rect_height = c(0.6, 0.6), rect_width = c(0.2, 0.6), r
     grid.xspline(
         x = rep(df_y$x, 2),
         y = rep(rev(df_y$y), 2),
-        gp = gpar(fill = "green4", alpha = 0.5, lwd = 2),
+        gp = gpar(fill = space_fill_color[2], alpha = space_alpha, lwd = 2),
         shape = 1, open = FALSE
     )
 
@@ -808,7 +812,7 @@ plot_relspace <- function(rect_height = c(0.6, 0.6), rect_width = c(0.2, 0.6), r
     grid.xspline(
         x = rep(df_x$x, 2),
         y = rep(rev(df_x$y), 2),
-        gp = gpar(fill = "blue4", alpha = 0.5, lwd = 2),
+        gp = gpar(fill = space_fill_color[1], alpha = space_alpha, lwd = 2),
         shape = 1, open = FALSE
     )
 
