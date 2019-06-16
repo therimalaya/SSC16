@@ -46,6 +46,44 @@ h1, h2, h3, h4, h5, h6, a{
 .data .pull-right h2 {
     margin-top: 0;
 }
+
+.acknowledgment .pull-left {
+    display: flex;
+    flex-direction: column;
+}
+.acknowledgment .pull-left .card {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 200px 1fr;
+}
+.card-text {
+    text-align: left;
+    padding-left: 20px;
+    line-height: 10px;
+    align-self: end;
+}
+.card-text h2{
+    color: #565656;
+}
+.acknowledgement .pull-left h2:last-of-type, .pull-left h3:last-child {
+    color: gray;
+}
+
+.remark-slide-content.acknowledgment {
+    background: linear-gradient(120deg, rgb(209, 232, 223) 60%, #009a81 60%);
+}
+.pull-right.biostat-logo {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    text-align: right;
+}
+.acknowledgment .pull-right.biostat-logo img {
+    width: 50%;
+    padding-right: 20px;
+}
+
 .reference .left-column {
     width: 30%;
 }
@@ -59,6 +97,22 @@ h1, h2, h3, h4, h5, h6, a{
 
 .reference .left-column p:first-child {
     margin-top: 40px;
+}
+
+
+.remark-slide-content.acknowledgment {
+    background: linear-gradient(120deg, rgb(209, 232, 223) 60%, #009a81 60%);
+}
+.pull-right.biostat-logo {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    text-align: right;
+}
+.acknowledgment .pull-right.biostat-logo img {
+    width: 50%;
+    padding-right: 20px;
 }
 
 @media print {

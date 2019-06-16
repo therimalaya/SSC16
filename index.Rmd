@@ -61,6 +61,7 @@ class: center, middle, inverse
 
 # A comparison of multi-response prediction methods
 
+
 ## Raju Rimal, Trygve Almøy and Solve Sæbø
 
 ### 19 June, 2019
@@ -70,6 +71,15 @@ knitr::include_graphics("_images/NMBUwhite.svg")
 ```
 
 [`https://therimalaya.github.io/SSC16`](https://therimalaya.github.io/SSC16)
+
+
+???
+- The numbers transform into facts and information when we use them to answer certain questions. 
+- There are questions everywhere and so are the numbers. 
+- Understanding this intricate relationship fueled my interest in pursuing this PhD.
+- Since simulation is a reverse engineering process where we start with model and end up with data, it has been my entrance for understanding how information flows.
+- This is a study as part of my PhD, where me and my supervisors used a simulation tool we devised to compare some **multi-response multivariate methods**
+- The comparison is based on their **prediction performance**
 
 ---
 exclude: true
@@ -143,6 +153,17 @@ plot_cov(sobj, type = "relpos", ordering = FALSE, facetting = FALSE)
 ]
 ]
 
+???
+- A linear model defines a **linear relationship** between two variables
+- A typical data usually has structure somewhat like in the left figure
+- Here, the predictor matrix are somewhat relevant for response matrix through the covariance structure
+- However, not all information in predictor is relevant the response and not everything in response is informative
+- Only a certain *part of predictor*, like in right figure, *is relevant for the informative part of response*
+- The concept of relevant components assumes that a certain latent components spans these relevant and informative subspace.
+- In the figure _principal components_ $z_1, \ldots z_4$ spans this blue space and are relevant for the informative blue section of the response
+- The informative part in the response is completely explained by one component of $y$.
+- Although this is ideal structure but a sample version as in the left figure is common in most research
+
 ---
 class: top, methods
 
@@ -168,6 +189,10 @@ class: top, methods
 
 ]
 
+???
+- The multivariate methods we are comparing here are PCR, PLS1, PLS2 and two envelope methods
+- Here envelope methods are relatively new. This is based on envelope estimation introduced by Dannis Cook
+- Ample references can be obtained in the related paper in the last slide
 
 ---
 class: top, simulation
@@ -267,6 +292,26 @@ design_chr %>%
 
 ]
 
+???
+In order to achieve certain propeties, different levels of various simulation parameters are used as an experimental design:
+
+`p`
+: With 100 observations, we have used two cases of number of predictors 20 and 250 to obtain both wide and tall matrices
+
+`relpos`
+: Position of the relevant components, 1:4 and 5:8
+
+`gamma`
+: Controlls the multicollinearity level in the data, 0.2 refers low multicolliearity and 0.9 refers high multicollinearity
+
+`eta`
+: Similar to `gamma` but for different responses, it also controlls the correlation between the responses. Four levels of `eta` are used
+
+- With the levels of these parameters, 32 unique designs are created. Each design referes to a unique propertes in the simulated data
+- For example: Design 1 has low multicollinerity and the relevant components at 1:4. So that the relevant components has large variation making the design easy for most methods
+- However, for Design 9, due to high multicollinearity, relevant components at 5:8 have low variation and is difficult to model for most methods
+
+
 ---
 class: top, simulation
 
@@ -305,6 +350,13 @@ sigma_zy %>%
 ```
 
 ]
+
+???
+A sample version of these relationships somewhat reflects what we saw in population
+
+- From each of these designs, 50 replicated datasets are simulated
+- Each of these datasets are used to fit previously mentioned methods
+- The miniumum prediction error and the number of components used to obtain that error are measured
 
 ---
 class: top, data
@@ -369,6 +421,14 @@ $$\mathtt{Pred.Error} \sim \left(\mathtt{p} + \mathtt{relpos} + \mathtt{gamma} +
 $$\mathtt{Min.Components} \sim \left(\mathtt{p} + \mathtt{relpos} + \mathtt{gamma} + \mathtt{eta} + \mathtt{Methods}\right)^3$$
 
 ]
+
+???
+- Now our dataset for further analysis looks like the one in left figure.
+- The factors are the simulation parameters and methods
+- The outcome variables are a) prediction error in one case and b) number of components in another case
+- A MANOVA model is fitted as in the right side with third order interaction of these factors
+- Let us call _error model_ for model with prediction error as outcome and 
+- _component model_ for model with number of components as the outcome
 
 ---
 class: top
@@ -456,6 +516,14 @@ get_manova_plot(plt_data, term = "^relpos$|^Method$|^relpos:Method$|^eta:relpos:
 
 ]
 
+???
+- The MANOVA result for the previous models are plotted in right figure 
+- The bar represents the test statistic for each factors in the model.
+- The left figure plots the effect of individual levels for position of relevant components, response correlation and the methods.
+- In most cases, the envelope methods have shown quite good results using very few number of components
+- Although the PLS1 methods have used few components its prediction relatively poor prediction
+- The response correlation has similar effect in all methods and all cases of relevant component index
+
 ---
 class: top
 
@@ -495,12 +563,17 @@ get_manova_plot(plt_data, term = "^gamma$|^Method$|^gamma:Method$|^gamma:relpos:
 
 ]
 
+???
+- Similary, here we can see the difference between the effect of two levels of relevant components 
+- It is less critical to the low multicollinearity cases while for high multicollinearity its effect is vastly different
+- Even in the difficult design with high multicollinearity and relevant position at 5:8, as we have seen in second slide, Envelope methods have smaller prediction error and uses very few number of components
+- I would like to suggest this community to give a try for new methods such as envelope. These methods in our study have performed specially in prediction cases.
+
 ---
 class: top, acknowledgment
-exclude: true
 
 .pull-left[
-# Acknowledgement
+# Supervisors
 
 .card[
 ```{r, out.width='100%'}
@@ -526,6 +599,9 @@ knitr::include_graphics('_images/trygve.jpg')
 
 ]
 
+???
+Solve Sæbø is my main supervisor and his PhD supervisor Trygve Almøy is my co-supervisor. They have helped me a lot in this study.
+
 ---
 
 class: top, reference
@@ -542,13 +618,20 @@ knitr::include_graphics("_images/simrel-hex.svg")
 ]
 
 .right-column[
-[Comparison of multi-response prediction methods. In: _Chemometrics and Intelligent Laboratory Systems_ DOI: `https://doi.org/10.1016/j.chemolab.2019.05.004`](https://www.sciencedirect.com/science/article/pii/S016974391930187X)
+[Comparison of multi-response prediction methods. In: _Chemometrics and Intelligent Laboratory Systems_ DOI:`10.1016/j.chemolab.2019.05.004`](https://www.sciencedirect.com/science/article/pii/S016974391930187X)
 
 ```{r}
 knitr::include_graphics("_images/Paper-Screenshot.png")
 ```
 
 ]
+
+???
+- All these study is possible due to the R-package `simrel`. Please give it a try. 
+- You can use it for assessing, comparing and testing different methods and algorithms
+- You can simulate data for educational purpose as well
+- All these results are based on this recently published paper
+- THANK YOU
 
 ---
 exclude: true
